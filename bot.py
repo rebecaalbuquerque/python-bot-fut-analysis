@@ -60,7 +60,7 @@ def main():
         listen="0.0.0.0",
         port=PORT,
         url_path=TOKEN,
-        webhook_url='https://yourherokuappname.herokuapp.com/' + TOKEN
+        webhook_url='https://python-bot-fut-analysis.herokuapp.com/' + TOKEN
     )
 
     # Run the bot until you press Ctrl-C or the process receives SIGINT,
