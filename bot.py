@@ -34,6 +34,7 @@ def error(update, context):
 
 
 def main():
+    print("Port: " + PORT)
     """Start the bot."""
     # Create the Updater and pass it your bot's token.
     # Make sure to set use_context=True to use the new context based callbacks
