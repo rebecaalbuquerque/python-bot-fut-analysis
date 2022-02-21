@@ -4,6 +4,7 @@ import os
 import re
 
 PORT = int(os.environ.get('PORT', 8443))
+ADD_REGEX = "(([01]?[0-9]|2[0-3]):[0-5][0-9]);([0-9]{1,2}.[0-9]{1,2}.[0-9]{1,2});([0-9]{1,2});(r|g);(.+?);(\\b[^\\d\\W]+\\b$)"
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
@@ -30,13 +31,21 @@ def echo(update, context):
 
 
 def add(update, context):
-    print(update.message)
-    # message = re.search(
-    #     "(([01]?[0-9]|2[0-3]):[0-5][0-9]);([0-9]{1,2}.[0-9]{1,2}.[0-9]{1,2});([0-9]{1,2});(r|g);(.+?);(\b[^\d\W]+\b$)" ,
-    #     update.message
-    # )
-    # print(message)
-    update.message.reply_text("testando")
+    bet_message = update.message.text
+    match = re.search(ADD_REGEX, bet_message)
+
+    if match:
+        bet = bet_message.split(";")
+        response = """
+        Você salvou a seguinte aposta:
+        
+        {}
+        {}
+        {}
+        """.format(bet[5], bet[1], bet[3])
+        update.message.reply_text(response)
+    else:
+        update.message.reply_text("Desculpe, não entendi o comando")
 
 
 def error(update, context):
