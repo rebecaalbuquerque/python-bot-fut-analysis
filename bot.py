@@ -65,11 +65,11 @@ def add(update, context):
         Você salvou a seguinte aposta:
         
         \U0001F3C6 {}
-        \U000023F0 {}
         \U000026BD {}
+        \U000023F0 {}
         
         {}
-        """.format(championship, order, bet_type, result)
+        """.format(championship, bet_type, order, result)
         update.message.reply_text(response)
     else:
         update.message.reply_text("Desculpe, não entendi o comando")
