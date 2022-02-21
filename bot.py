@@ -48,7 +48,9 @@ def add(update, context):
     bet_message = update.message.text
     match = re.search(ADD_REGEX, bet_message)
 
-    print(sheet_instance.col_count)
+    records_data = sheet_instance.get_all_records()
+
+    print(records_data)
 
     if match:
         bet = bet_message.split(";")
