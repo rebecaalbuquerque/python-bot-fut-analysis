@@ -24,6 +24,11 @@ def help(update, context):
     update.message.reply_text('Help!')
 
 
+def echo(update, context):
+    """Echo the user message."""
+    update.message.reply_text(update.message.text)
+
+
 def add(update, context):
     print(update.message)
     message = re.search(
@@ -54,6 +59,7 @@ def main():
     # on different commands - answer in Telegram
     dp.add_handler(CommandHandler("start", start))
     dp.add_handler(CommandHandler("help", help))
+    dp.add_handler(CommandHandler("add", add))
 
     # on noncommand i.e message - echo the message on Telegram
     dp.add_handler(MessageHandler(Filters.text, echo))
