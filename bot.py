@@ -24,11 +24,6 @@ def help(update, context):
     update.message.reply_text('Help!')
 
 
-def echo(update, context):
-    """Echo the user message."""
-    update.message.reply_text(update.message.text)
-
-
 def add(update, context):
     print(update.message)
     message = re.search(
