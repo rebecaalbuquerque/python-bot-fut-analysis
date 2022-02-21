@@ -31,11 +31,11 @@ def echo(update, context):
 
 def add(update, context):
     print(update.message)
-    message = re.search(
-        "(([01]?[0-9]|2[0-3]):[0-5][0-9]);([0-9]{1,2}.[0-9]{1,2}.[0-9]{1,2});([0-9]{1,2});(r|g);(.+?);(\b[^\d\W]+\b$)" ,
-        update.message
-    )
-    print(message)
+    # message = re.search(
+    #     "(([01]?[0-9]|2[0-3]):[0-5][0-9]);([0-9]{1,2}.[0-9]{1,2}.[0-9]{1,2});([0-9]{1,2});(r|g);(.+?);(\b[^\d\W]+\b$)" ,
+    #     update.message
+    # )
+    # print(message)
     update.message.reply_text("testando")
 
 
