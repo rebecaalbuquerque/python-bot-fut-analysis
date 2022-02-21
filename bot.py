@@ -4,7 +4,7 @@ import os
 import re
 
 PORT = int(os.environ.get('PORT', 8443))
-ADD_REGEX = "(([01]?[0-9]|2[0-3]):[0-5][0-9]);([0-9]{1,2}.[0-9]{1,2}.[0-9]{1,2});(-?[0-9]{1,2});(r|g);(.+?);(\\b[^\\d\\W]+\\b$)"
+ADD_REGEX = "(([01]?[0-9]|2[0-3]):[0-5][0-9]);([0-9]{1,2}.[0-9]{1,2}.[0-9]{1,2});(-?[0-9]{1,2});(.+?);(\\b[^\\d\\W]+\\b$)"
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
@@ -43,8 +43,9 @@ def add(update, context):
         bet = bet_message.split(";")
 
         championship = bet[5]
+        order_result = int(bet[2])
         order = bet[1]
-        result = "\U00002705" if bet[3] == "g" else "\U0000274C"
+        result = "\U00002705" if order_result > -1 else "\U0000274C"
 
         response = """
         Você salvou a seguinte aposta:
