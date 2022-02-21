@@ -41,13 +41,18 @@ def add(update, context):
 
     if match:
         bet = bet_message.split(";")
+
+        championship = bet[5]
+        order = bet[1]
+        result = "\U00002705" if bet[3] == "g" else "\U0000274C"
+
         response = """
         Você salvou a seguinte aposta:
         
         \U0001F3C6 {}
+        \U000023F0 {}
         {}
-        {}
-        """.format(bet[5], bet[1], bet[3])
+        """.format(championship, order, result)
         update.message.reply_text(response)
     else:
         update.message.reply_text("Desculpe, não entendi o comando")
