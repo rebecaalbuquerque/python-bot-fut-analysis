@@ -39,6 +39,7 @@ def add(update, context):
         response = """
         Você salvou a seguinte aposta:
         
+        :white_check_mark:
         {}
         {}
         {}
