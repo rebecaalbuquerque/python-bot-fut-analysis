@@ -43,15 +43,29 @@ def add(update, context):
         bet = bet_message.split(";")
 
         championship = bet[4]
-        order_result = int(bet[2])
-        order = bet[1]
-        result = "\U00002705" if order_result > -1 else "\U0000274C"
+        order_result = bet[2]
+        order_array = bet[1].split(".")
+        order = ""
+
+        for index, value in enumerate(order_array):
+            if value == order_result:
+                order += "["
+                order += value
+                order += "]"
+            else:
+                order += value
+
+            if index < len(order_array):
+                order += "."
+
+        result = "\U00002705" if int(order_result) > -1 else "\U0000274C"
 
         response = """
         Você salvou a seguinte aposta:
         
         \U0001F3C6 {}
         \U000023F0 {}
+        
         {}
         """.format(championship, order, result)
         update.message.reply_text(response)
