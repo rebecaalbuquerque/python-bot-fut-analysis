@@ -84,7 +84,7 @@ def add(update, context):
         update.message.reply_text("Desculpe, não entendi o comando")
 
     sheet_instance.insert_row(
-        [["00:04", "7.10.13", "7", "over 2.5", "super"], ["00:04", "7.10.13", "7", "over 2.5", "super"]],
+        [["teste1"], ["teste2"]],
         2
     )
 
