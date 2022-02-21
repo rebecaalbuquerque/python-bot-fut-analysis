@@ -81,8 +81,11 @@ def add(update, context):
         {}
         """.format(championship, bet_type, order, result)
 
+        print([time, order, order_result, bet_type, championship])
+
         sheet_instance.insert_row(
-            [time, order, order_result, bet_type, championship]
+            [time, order, order_result, bet_type, championship],
+            1
         )
 
         update.message.reply_text(response)
