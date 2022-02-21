@@ -39,8 +39,7 @@ def add(update, context):
         response = """
         Você salvou a seguinte aposta:
         
-        :white_check_mark:
-        {}
+        \\U+1F3C6 {}
         {}
         {}
         """.format(bet[5], bet[1], bet[3])
