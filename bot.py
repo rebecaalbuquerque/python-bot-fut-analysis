@@ -1,4 +1,6 @@
 import logging
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import os
 import re
@@ -11,6 +13,13 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 
 logger = logging.getLogger(__name__)
 TOKEN = '5174025195:AAHCf4_dpbtBNO27mny1ximvYYZtKf6zYw8'
+
+# Setting up google sheet
+scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
+creds = ServiceAccountCredentials.from_json_keyfile_name('credentials.json', scope)
+client = gspread.authorize(creds)
+sheet = client.open('Bot')
+sheet_instance = sheet.get_worksheet(0)
 
 
 # Define a few command handlers. These usually take the two arguments update and
@@ -38,6 +47,8 @@ def teste(update, context):
 def add(update, context):
     bet_message = update.message.text
     match = re.search(ADD_REGEX, bet_message)
+
+    print(sheet_instance.col_count)
 
     if match:
         bet = bet_message.split(";")
