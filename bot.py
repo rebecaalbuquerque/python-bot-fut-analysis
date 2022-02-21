@@ -1,6 +1,7 @@
 import logging
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import os
+import re
 
 PORT = int(os.environ.get('PORT', 8443))
 
@@ -26,6 +27,16 @@ def help(update, context):
 def echo(update, context):
     """Echo the user message."""
     update.message.reply_text(update.message.text)
+
+
+def add(update, context):
+    print(update.message)
+    message = re.search(
+        "(([01]?[0-9]|2[0-3]):[0-5][0-9]);([0-9]{1,2}.[0-9]{1,2}.[0-9]{1,2});([0-9]{1,2});(r|g);(.+?);(\b[^\d\W]+\b$)" ,
+        update.message
+    )
+    print(message)
+    update.message.reply_text("testando")
 
 
 def error(update, context):
