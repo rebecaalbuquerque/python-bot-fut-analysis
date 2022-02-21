@@ -51,6 +51,7 @@ def add(update, context):
     if match:
         bet = bet_message.split(";")
 
+        time = bet[0]
         championship = bet[4]
         order_result = bet[2]
         order_array = bet[1].split(".")
@@ -79,14 +80,14 @@ def add(update, context):
         
         {}
         """.format(championship, bet_type, order, result)
+
+        sheet_instance.insert_row(
+            [time, order, order_result, bet_type, championship]
+        )
+
         update.message.reply_text(response)
     else:
         update.message.reply_text("Desculpe, não entendi o comando")
-
-    sheet_instance.insert_row(
-        ["teste1"],
-        2
-    )
 
 
 def error(update, context):
