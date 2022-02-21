@@ -45,6 +45,7 @@ def add(update, context):
         championship = bet[4]
         order_result = bet[2]
         order_array = bet[1].split(".")
+        bet_type = bet[3]
         order = ""
 
         for index, value in enumerate(order_array):
@@ -55,7 +56,7 @@ def add(update, context):
             else:
                 order += value
 
-            if index < len(order_array):
+            if index < len(order_array) - 1:
                 order += "."
 
         result = "\U00002705" if int(order_result) > -1 else "\U0000274C"
@@ -65,9 +66,10 @@ def add(update, context):
         
         \U0001F3C6 {}
         \U000023F0 {}
+        \U000026BD {}
         
         {}
-        """.format(championship, order, result)
+        """.format(championship, order, bet_type, result)
         update.message.reply_text(response)
     else:
         update.message.reply_text("Desculpe, não entendi o comando")
