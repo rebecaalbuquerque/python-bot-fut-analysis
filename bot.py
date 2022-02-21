@@ -30,6 +30,11 @@ def echo(update, context):
     update.message.reply_text(update.message.text)
 
 
+def teste(update, context):
+    """Echo the user message."""
+    update.message.reply_text("\U0001F3C6")
+
+
 def add(update, context):
     bet_message = update.message.text
     match = re.search(ADD_REGEX, bet_message)
@@ -39,7 +44,7 @@ def add(update, context):
         response = """
         Você salvou a seguinte aposta:
         
-        \\U+1F3C6 {}
+        \U0001F3C6 {}
         {}
         {}
         """.format(bet[5], bet[1], bet[3])
@@ -69,6 +74,7 @@ def main():
     dp.add_handler(CommandHandler("start", start))
     dp.add_handler(CommandHandler("help", help))
     dp.add_handler(CommandHandler("add", add))
+    dp.add_handler(CommandHandler("teste", teste))
 
     # on noncommand i.e message - echo the message on Telegram
     dp.add_handler(MessageHandler(Filters.text, echo))
