@@ -48,11 +48,6 @@ def add(update, context):
     bet_message = update.message.text
     match = re.search(ADD_REGEX, bet_message)
 
-    records_data = sheet_instance.get_all_records()
-    sheet_instance.insert_row(["00:04","7.10.13","7","over 2.5","super"],["00:04","7.10.13","7","over 2.5","super"])
-
-    print(records_data)
-
     if match:
         bet = bet_message.split(";")
 
@@ -87,6 +82,11 @@ def add(update, context):
         update.message.reply_text(response)
     else:
         update.message.reply_text("Desculpe, não entendi o comando")
+
+    sheet_instance.insert_row(
+        [["00:04", "7.10.13", "7", "over 2.5", "super"], ["00:04", "7.10.13", "7", "over 2.5", "super"]],
+        2
+    )
 
 
 def error(update, context):
