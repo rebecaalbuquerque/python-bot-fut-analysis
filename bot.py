@@ -49,6 +49,7 @@ def add(update, context):
     match = re.search(ADD_REGEX, bet_message)
 
     records_data = sheet_instance.get_all_records()
+    sheet_instance.insert_row(["00:04","7.10.13","7","over 2.5","super"],["00:04","7.10.13","7","over 2.5","super"])
 
     print(records_data)
 
