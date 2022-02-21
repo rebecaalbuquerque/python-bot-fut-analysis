@@ -85,7 +85,7 @@ def add(update, context):
 
         sheet_instance.insert_row(
             [time, order, order_result, bet_type, championship],
-            1
+            2
         )
 
         update.message.reply_text(response)
