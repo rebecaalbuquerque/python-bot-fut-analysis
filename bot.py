@@ -1,25 +1,17 @@
 import logging
-import gspread
-from oauth2client.service_account import ServiceAccountCredentials
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import os
-import re
+
+from bet_formater import get_bet
+from google_sheets_export import register_bet
 
 PORT = int(os.environ.get('PORT', 8443))
-ADD_REGEX = "(?:(?:(?:(0[1-9]|1[0-9]|2[0-8])[\/\-\.](0[1-9]|1[0-2])|(29|30)[\/\-\.](0[13-9]|1[0-2])|(31)[\/\-\.](0[13578]|1[02]))[\/\-\.]([1-2][0-9]{3}))|(?:(29)[\/\-\.](02)[\/\-\.]([1-2][0-9](?:0[48]|[2468][048]|[13579][26])|(?:0[48]|[2468][048]|[13579][26])00)))(?: ((?:[0-1][0-9])|(?:2[0-3])):([0-5][0-9]))?;([0-9]{1,2}.[0-9]{1,2}.[0-9]{1,2});(-?[0-9]{1,2});(.+?);(\\b[^\\d\\W]+\\b$)"
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
 logger = logging.getLogger(__name__)
 TOKEN = '5174025195:AAHCf4_dpbtBNO27mny1ximvYYZtKf6zYw8'
-
-# Setting up google sheet
-scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
-creds = ServiceAccountCredentials.from_json_keyfile_name('credentials.json', scope)
-client = gspread.authorize(creds)
-sheet = client.open('Bot')
-sheet_instance = sheet.get_worksheet(0)
 
 
 # Define a few command handlers. These usually take the two arguments update and
@@ -36,52 +28,26 @@ def echo(update, context):
 
 def add(update, context):
     bet_message = update.message.text
-    match = re.search(ADD_REGEX, bet_message)
+    result = get_bet(bet_message)
 
-    if match:
-        command = match.string[match.span()[0]:match.span()[1]]
-        bet = command.split(";")
-
-        time = bet[0]
-        order_array = bet[1].split(".")
-        order_result = bet[2]
-        bet_type = bet[3]
-        championship = bet[4]
-        order = ""
-
-        for index, value in enumerate(order_array):
-            if value == order_result:
-                order += "["
-                order += value
-                order += "]"
-            else:
-                order += value
-
-            if index < len(order_array) - 1:
-                order += "."
-
-        result = "\U00002705" if int(order_result) > -1 else "\U0000274C"
-
-        response = """
-        Você salvou a seguinte aposta:
-        
-        \U0001F3C6 {}
-        \U000026BD {}
-        \U000023F0 {}
-        
-        {}
-        """.format(championship, bet_type, order, result)
-
-        print([time, order, order_result, bet_type, championship])
-
-        sheet_instance.insert_row(
-            [time, order, order_result, bet_type, championship],
-            2
+    if result.success:
+        print(
+            result["bet"]["time"],
+            result["bet"]["order"],
+            result["bet"]["order_result"],
+            result["bet"]["bet_type"],
+            result["bet"]["championship"]
         )
-
-        update.message.reply_text(response)
+        register_bet(
+            result["bet"]["time"],
+            result["bet"]["order"],
+            result["bet"]["order_result"],
+            result["bet"]["bet_type"],
+            result["bet"]["championship"]
+        )
+        update.message.reply_text(result["message"])
     else:
-        update.message.reply_text("Desculpe, não entendi o comando")
+        update.message.reply_text(result["message"])
 
 
 def error(update, context):
