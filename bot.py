@@ -6,7 +6,7 @@ import os
 import re
 
 PORT = int(os.environ.get('PORT', 8443))
-ADD_REGEX = "(([01]?[0-9]|2[0-3]):[0-5][0-9]);([0-9]{1,2}.[0-9]{1,2}.[0-9]{1,2});(-?[0-9]{1,2});(.+?);(\\b[^\\d\\W]+\\b$)"
+ADD_REGEX = "(?:(?:(?:(0[1-9]|1[0-9]|2[0-8])[\/\-\.](0[1-9]|1[0-2])|(29|30)[\/\-\.](0[13-9]|1[0-2])|(31)[\/\-\.](0[13578]|1[02]))[\/\-\.]([1-2][0-9]{3}))|(?:(29)[\/\-\.](02)[\/\-\.]([1-2][0-9](?:0[48]|[2468][048]|[13579][26])|(?:0[48]|[2468][048]|[13579][26])00)))(?: ((?:[0-1][0-9])|(?:2[0-3])):([0-5][0-9]))?;([0-9]{1,2}.[0-9]{1,2}.[0-9]{1,2});(-?[0-9]{1,2});(.+?);(\\b[^\\d\\W]+\\b$)"
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
@@ -29,19 +29,9 @@ def start(update, context):
     update.message.reply_text('Hi!')
 
 
-def help(update, context):
-    """Send a message when the command /help is issued."""
-    update.message.reply_text('Help!')
-
-
 def echo(update, context):
     """Echo the user message."""
     update.message.reply_text(update.message.text)
-
-
-def teste(update, context):
-    """Echo the user message."""
-    update.message.reply_text("\U0001F3C6")
 
 
 def add(update, context):
@@ -49,13 +39,14 @@ def add(update, context):
     match = re.search(ADD_REGEX, bet_message)
 
     if match:
-        bet = bet_message.split(";")
+        command = match.string[match.span()[0]:match.span()[1]]
+        bet = command.split(";")
 
         time = bet[0]
-        championship = bet[4]
-        order_result = bet[2]
         order_array = bet[1].split(".")
+        order_result = bet[2]
         bet_type = bet[3]
+        championship = bet[4]
         order = ""
 
         for index, value in enumerate(order_array):
@@ -112,9 +103,7 @@ def main():
 
     # on different commands - answer in Telegram
     dp.add_handler(CommandHandler("start", start))
-    dp.add_handler(CommandHandler("help", help))
     dp.add_handler(CommandHandler("add", add))
-    dp.add_handler(CommandHandler("teste", teste))
 
     # on noncommand i.e message - echo the message on Telegram
     dp.add_handler(MessageHandler(Filters.text, echo))
