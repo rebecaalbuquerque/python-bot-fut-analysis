@@ -30,7 +30,7 @@ def add(update, context):
     bet_message = update.message.text
     result = get_bet(bet_message)
 
-    if result.success:
+    if result["success"]:
         print(
             result["bet"]["time"],
             result["bet"]["order"],
