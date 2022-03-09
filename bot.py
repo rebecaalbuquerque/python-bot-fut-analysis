@@ -51,6 +51,7 @@ def add(update, context):
 
 
 def add_file(update, context):
+    print("add_file")
     file = context.bot.get_file(update.message.document).download()
     print(file)
     update.message.reply_text(type(file))
