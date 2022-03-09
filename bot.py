@@ -50,6 +50,12 @@ def add(update, context):
         update.message.reply_text(result["message"])
 
 
+def add_file(update, context):
+    file = context.bot.get_file(update.message.document).download()
+    print(file)
+    update.message.reply_text(type(file))
+
+
 def error(update, context):
     """Log Errors caused by Updates."""
     logger.warning('Update "%s" caused error "%s"', update, context.error)
@@ -70,6 +76,7 @@ def main():
     # on different commands - answer in Telegram
     dp.add_handler(CommandHandler("start", start))
     dp.add_handler(CommandHandler("add", add))
+    dp.add_handler(CommandHandler("addFile", add_file))
 
     # on noncommand i.e message - echo the message on Telegram
     dp.add_handler(MessageHandler(Filters.text, echo))
