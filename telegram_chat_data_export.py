@@ -82,18 +82,18 @@ def export_telegram_chat_bet(chat_file):
     return chat_list_text
 
 
-bet_list = export_telegram_chat_bet(open("/Users/rebeca.diniz/Downloads/result.json"))
-
-for bet in bet_list:
-    result = get_bet(bet)
-
-    if result["success"]:
-        register_bet(
-            result["bet"]["time"],
-            result["bet"]["order"],
-            result["bet"]["order_result"],
-            result["bet"]["bet_type"],
-            result["bet"]["championship"]
-        )
-    else:
-        print("deu ruim")
+# bet_list = export_telegram_chat_bet(open("/Users/rebeca.diniz/Downloads/result.json"))
+#
+# for bet in bet_list:
+#     result = get_bet(bet)
+#
+#     if result["success"]:
+#         register_bet(
+#             result["bet"]["time"],
+#             result["bet"]["order"],
+#             result["bet"]["order_result"],
+#             result["bet"]["bet_type"],
+#             result["bet"]["championship"]
+#         )
+#     else:
+#         print("deu ruim")
