@@ -4,6 +4,7 @@ import os
 
 from bet_formater import get_bet
 from google_sheets_export import register_bet
+from telegram_chat_data_export import export_telegram_chat_bet
 
 PORT = int(os.environ.get('PORT', 8443))
 
@@ -54,6 +55,22 @@ def add_file(update, context):
     print("add_file")
     file = context.bot.get_file(update.message.document).download()
     print(file)
+    bet_list = export_telegram_chat_bet(file)
+
+    for bet in bet_list:
+        result = get_bet(bet)
+
+        if result["success"]:
+            register_bet(
+                result["bet"]["time"],
+                result["bet"]["order"],
+                result["bet"]["order_result"],
+                result["bet"]["bet_type"],
+                result["bet"]["championship"]
+            )
+        else:
+            print("deu ruim")
+
     update.message.reply_text(type(file))
 
 

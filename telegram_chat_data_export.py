@@ -52,7 +52,7 @@ def _extract_bet_command(string):
                 order_result = str(order_result_index)
 
                 if order_result_index > -1:
-                    order_result = order_string[order_result_index-2:order_result_index]
+                    order_result = order_string[order_result_index - 2:order_result_index]
 
                 string_array_formatted.append(re.sub("\U00002705", "", order_string))
                 string_array_formatted.append(order_result)
@@ -66,8 +66,7 @@ def _extract_bet_command(string):
     return result
 
 
-def _export_telegram_chat_bet():
-    chat_file = open("/Users/rebeca.diniz/Downloads/result.json")
+def export_telegram_chat_bet(chat_file):
     chat_dict = json.load(chat_file)
     chat_list_text = []
 
@@ -83,7 +82,7 @@ def _export_telegram_chat_bet():
     return chat_list_text
 
 
-bet_list = _export_telegram_chat_bet()
+bet_list = export_telegram_chat_bet(open("/Users/rebeca.diniz/Downloads/result.json"))
 
 for bet in bet_list:
     result = get_bet(bet)
