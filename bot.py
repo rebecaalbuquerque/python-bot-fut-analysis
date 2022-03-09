@@ -55,6 +55,7 @@ def add_file(update, context):
     print("add_file")
     file = context.bot.get_file(update.message.document).download()
     print(file)
+    print(type(file))
     bet_list = export_telegram_chat_bet(file)
 
     for bet in bet_list:
