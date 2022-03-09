@@ -77,7 +77,7 @@ def main():
     # on different commands - answer in Telegram
     dp.add_handler(CommandHandler("start", start))
     dp.add_handler(CommandHandler("add", add))
-    dp.add_handler(CommandHandler("addFile", add_file))
+    dp.add_handler(MessageHandler(Filters.document, add_file))
 
     # on noncommand i.e message - echo the message on Telegram
     dp.add_handler(MessageHandler(Filters.text, echo))
