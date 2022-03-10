@@ -57,16 +57,23 @@ def add_file(update, context):
     file = context.bot.get_file(update.message.document).download()
     bet_list = export_telegram_chat_bet(file)
     bet_amount = len(bet_list)
+    bet_groups_amount = bet_amount / BetRegister().write_request_per_minute
+    time_waiting_in_seconds = 61
+    finishing_time = bet_groups_amount * 61
 
-    update.message.reply_text("Iniciando inclusão de {} apostas na planilha...".format(bet_amount))
+    update.message.reply_text(
+        "Iniciando inclusão de {} apostas na planilha em {} grupos. "
+        "Todo o processo será finalizado em aproximadamente {} minutos"
+            .format(bet_amount, bet_groups_amount, finishing_time)
+    )
 
-    bets_groups = numpy.array_split(numpy.array(bet_list), bet_amount / BetRegister().write_request_per_minute)
+    bets_groups = numpy.array_split(numpy.array(bet_list), bet_groups_amount)
 
-    for group in bets_groups:
-        print("Adicionando um grupo")
+    for index, group in enumerate(bets_groups):
+        print("Adicionando um grupo {}".format(index + 1))
         BetRegister().add_bet_list(group)
         print("Pausando")
-        time.sleep(60)
+        time.sleep(time_waiting_in_seconds)
 
     update.message.reply_text("Inclusão finalizada")
 
@@ -77,8 +84,7 @@ def error(update, context):
 
 
 def main():
-    print("Port: ")
-    print(PORT)
+    print("Port: ".format(PORT))
     """Start the bot."""
     # Create the Updater and pass it your bot's token.
     # Make sure to set use_context=True to use the new context based callbacks
