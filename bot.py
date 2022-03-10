@@ -57,6 +57,7 @@ def add_file(update, context):
     print(file)
     print(type(file))
     bet_list = export_telegram_chat_bet(file)
+    update.message.reply_text("Iniciando inclusão das apostas na planilha...")
 
     for bet in bet_list:
         result = get_bet(bet)
@@ -72,7 +73,7 @@ def add_file(update, context):
         else:
             print(result["message"])
 
-    update.message.reply_text(type(file))
+    update.message.reply_text("Inclusão finalizada")
 
 
 def error(update, context):
