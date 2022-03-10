@@ -70,7 +70,7 @@ def add_file(update, context):
                 result["bet"]["championship"]
             )
         else:
-            print("deu ruim")
+            print(result["message"])
 
     update.message.reply_text(type(file))
 

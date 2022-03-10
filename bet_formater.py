@@ -56,5 +56,5 @@ def get_bet(message):
         return {
             "success": False,
             "bet": [],
-            "message": "Desculpe, não foi possível identificar a aposta"
+            "message": "Não foi possível identificar a aposta {}".format(message)
         }
