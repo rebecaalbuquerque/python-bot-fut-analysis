@@ -70,7 +70,7 @@ def add_file(update, context):
     bets_groups = numpy.array_split(numpy.array(bet_list), bet_groups_amount)
 
     for index, group in enumerate(bets_groups):
-        print("Adicionando um grupo {}".format(index + 1))
+        print("Adicionando grupo {}".format(index + 1))
         BetRegister().add_bet_list(group)
         print("Pausando")
         time.sleep(time_waiting_in_seconds)
