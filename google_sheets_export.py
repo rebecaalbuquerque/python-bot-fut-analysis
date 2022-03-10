@@ -23,7 +23,7 @@ class BetRegister(metaclass=BetRegisterMeta):
         client = gspread.authorize(creds)
         sheet = client.open('Bot')
         self.sheet_instance = sheet.get_worksheet(0)
-        self.write_request_per_minute = 40
+        self.write_request_per_minute = 30
 
     def add_bet(self, time, order, order_result, bet_type, championship):
         self.sheet_instance.insert_row([time, order, order_result, bet_type, championship], 2)
