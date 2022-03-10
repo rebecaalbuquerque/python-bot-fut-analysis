@@ -1,6 +1,8 @@
 import logging
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import os
+import numpy
+import time
 
 from bet_formater import get_bet
 from google_sheets_export import register_bet, BetRegister
@@ -52,26 +54,17 @@ def add(update, context):
 
 
 def add_file(update, context):
-    print("add_file")
     file = context.bot.get_file(update.message.document).download()
-    print(file)
-    print(type(file))
     bet_list = export_telegram_chat_bet(file)
-    update.message.reply_text("Iniciando inclusão de {} apostas na planilha...".format(len(bet_list)))
+    bet_amount = len(bet_list)
 
-    for bet in bet_list:
-        result = get_bet(bet)
+    update.message.reply_text("Iniciando inclusão de {} apostas na planilha...".format(bet_amount))
 
-        if result["success"]:
-            BetRegister().add_bet(
-                result["bet"]["time"],
-                result["bet"]["order"],
-                result["bet"]["order_result"],
-                result["bet"]["bet_type"],
-                result["bet"]["championship"]
-            )
-        else:
-            print(result["message"])
+    bets_groups = numpy.array_split(numpy.array(bet_list), bet_amount / BetRegister().write_request_per_minute)
+
+    for group in bets_groups:
+        BetRegister().add_bet_list(group)
+        time.sleep(30)
 
     update.message.reply_text("Inclusão finalizada")
 
