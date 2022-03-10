@@ -3,6 +3,7 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import os
 import numpy
 import time
+import math
 
 from bet_formater import get_bet
 from google_sheets_export import register_bet, BetRegister
@@ -63,8 +64,9 @@ def add_file(update, context):
 
     update.message.reply_text(
         "Iniciando inclusão de {} apostas na planilha em {} grupos. "
-        "Todo o processo será finalizado em aproximadamente {} minutos"
-            .format(bet_amount, bet_groups_amount, finishing_time)
+        "Todo o processo será finalizado em aproximadamente {} minutos".format(
+            bet_amount, math.floor(bet_groups_amount), math.ceil(finishing_time/60)
+        )
     )
 
     bets_groups = numpy.array_split(numpy.array(bet_list), bet_groups_amount)
@@ -84,7 +86,7 @@ def error(update, context):
 
 
 def main():
-    print("Port: ".format(PORT))
+    print("Port: {}".format(PORT))
     """Start the bot."""
     # Create the Updater and pass it your bot's token.
     # Make sure to set use_context=True to use the new context based callbacks
