@@ -3,7 +3,7 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import os
 
 from bet_formater import get_bet
-from google_sheets_export import register_bet
+from google_sheets_export import register_bet, BetRegister
 from telegram_chat_data_export import export_telegram_chat_bet
 
 PORT = int(os.environ.get('PORT', 8443))
@@ -63,7 +63,7 @@ def add_file(update, context):
         result = get_bet(bet)
 
         if result["success"]:
-            register_bet(
+            BetRegister().add_bet(
                 result["bet"]["time"],
                 result["bet"]["order"],
                 result["bet"]["order_result"],
