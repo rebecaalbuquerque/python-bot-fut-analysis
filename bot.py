@@ -63,7 +63,9 @@ def add_file(update, context):
     bets_groups = numpy.array_split(numpy.array(bet_list), bet_amount / BetRegister().write_request_per_minute)
 
     for group in bets_groups:
+        print("Adicionando um grupo")
         BetRegister().add_bet_list(group)
+        print("Pausando")
         time.sleep(30)
 
     update.message.reply_text("Inclusão finalizada")
