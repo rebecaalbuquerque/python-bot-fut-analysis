@@ -29,10 +29,11 @@ class BetRegister(metaclass=BetRegisterMeta):
         self.sheet_instance.insert_row([time, order, order_result, bet_type, championship], 2)
 
     def add_bet_list(self, bet_list):
-        for bet in bet_list:
+        for index, bet in enumerate(bet_list):
             result = get_bet(bet)
 
             if result["success"]:
+                print("Bet {}".format(index+1))
                 BetRegister().add_bet(
                     result["bet"]["time"],
                     result["bet"]["order"],
