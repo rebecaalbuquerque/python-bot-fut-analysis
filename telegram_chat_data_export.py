@@ -66,7 +66,8 @@ def _extract_bet_command(string):
     return result
 
 
-def export_telegram_chat_bet(chat_file):
+def export_telegram_chat_bet(file_path):
+    chat_file = open(file_path)
     chat_dict = json.load(chat_file)
     chat_list_text = []
 
