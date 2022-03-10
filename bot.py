@@ -64,7 +64,7 @@ def add_file(update, context):
 
     update.message.reply_text(
         "Iniciando inclusão de {} apostas na planilha em {} grupos. "
-        "Todo o processo será finalizado em aproximadamente {} minutos".format(
+        "Todo o processo será finalizado em aproximadamente {} minuto(s).".format(
             bet_amount, math.floor(bet_groups_amount), math.ceil(finishing_time/60)
         )
     )
